@@ -17,7 +17,7 @@ RUN mvn -q clean package -DskipTests
 
 
 # ---- RUNTIME ----
-FROM eclipse-temurin:17-jdk-slim
+FROM eclipse-temurin:17-jdk-focal
 
 WORKDIR /app
 
