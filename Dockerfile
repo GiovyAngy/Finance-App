@@ -7,7 +7,7 @@ WORKDIR /app
 COPY pom.xml .
 
 # Dependency download
-RUN mvn -q dependency:go-offline
+# RUN mvn -q dependency:go-offline
 
 # Root
 COPY src ./src
