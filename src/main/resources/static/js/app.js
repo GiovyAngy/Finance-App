@@ -415,7 +415,7 @@
 ======================================== */
 async function onExportPdfClick(){
   try {
-    // Mostra un loader opzionale
+   
     showAlert('PDF wird erstellt...');
     
     const res = await fetch(API_BASE + '/export/pdf');
@@ -449,7 +449,7 @@ async function onImportPdfFileChange(e){
   const file = e.target.files[0]; 
   if (!file) return;
   
-  // Validazione del file
+  
   if (!file.name.toLowerCase().endsWith('.pdf')) {
     showAlert('Bitte wählen Sie eine PDF-Datei aus');
     e.target.value = '';
@@ -755,7 +755,7 @@ if(el.closeFormatModalBtn) {
     if (el.exportPdfBtn) el.exportPdfBtn.addEventListener('click', onExportPdfClick);
 
 
-    // Grafici
+    // Grafik
     if (el.showChartsBtn) el.showChartsBtn.addEventListener('click', toggleChartControls);
     if (el.loadChartBtn) el.loadChartBtn.addEventListener('click', ()=> loadChart(el.chartType?.value));
 
