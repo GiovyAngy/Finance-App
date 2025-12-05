@@ -24,7 +24,7 @@ Desktop-/Webanwendung zur Verwaltung von Einnahmen, Ausgaben und persönlichen B
 Klonen Sie das Repository oder laden Sie das Projekt als ZIP herunter und entpacken Sie es in Ihrem bevorzugten Ordner:
 
 ```bash
-git clone <url-des-projekts>
+git clone -> https://github.com/GiovyAngy/Finance-App.git
 ```
 
 ### 2. IntelliJ konfigurieren
