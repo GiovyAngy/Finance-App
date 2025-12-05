@@ -910,7 +910,7 @@ justify-content: center;
 height: 300px;
 }
 }
-/* Mobile ottimizzato */
+/* Mobile */
 @media (max-width: 480px) {
 .header-stats {
 grid-template-columns: 1fr 1fr 1fr;
