@@ -98,4 +98,4 @@ server.port=8081
 ---
 
 ## **Support / Kontakt**
-Für Probleme oder Fragen bitte ein Issue im Repository öffnen oder den Projektautor [kontaktieren]([https://github.com/GiovyAngy](https://giovyangy.github.io/Lebenlauf/index.html#kontakt)).
+Für Probleme oder Fragen bitte ein Issue im Repository öffnen oder den Projektautor [kontaktieren](https://giovyangy.github.io/Lebenlauf/index.html#kontakt).
