@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MyFinanz</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+</head>
+<body>
+  <header>
+    
+    <div class="header-bar">
+      <div class="logo-wrap">
+      <img src="img/myfinanz.png" alt="Logo" class="title"><h1>MyFinanz</h1>
+    </div>
+      <div class="header-actions">
+<button id="openModalBtn" class="primary icon-btn icon-add">
+  Transaktion
+</button>
+
+
+
+
+<input type="file" id="importFile" style="display:none" />
+<input type="file" id="importPdfFile" accept="application/pdf" style="display:none" />
+<input type="file" id="importExcelFile" accept=".xlsx" style="display:none" />
+
+<!-- Vecchi bottoni nascosti o funzionali -->
+<button id="importBtn" style="display:none"></button>
+<button id="exportBtn" style="display:none"></button>
+
+<!-- Nuovi bottoni principali visibili -->
+<button id="importChoiceBtn" class="ghost icon-btn icon-import">Import</button>
+<button id="exportChoiceBtn" class="ghost icon-btn icon-export">Export</button>
+
+
+
+        <div class="theme-toggle" id="themeToggle">
+          <button id="toggleTheme">
+            <span class="dot" id="themeDot"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-stats">
+      <div class="stat income">
+        <span class="label">Einnahmen</span>
+        <span id="totalIncome" class="value">0 €</span>
+      </div>
+      <div class="stat expense">
+        <span class="label">Ausgaben</span>
+        <span id="totalExpense" class="value">0 €</span>
+      </div>
+      <div class="stat balance">
+        <span class="label">Kontostand</span>
+        <span id="totalBalance" class="value">0 €</span>
+      </div>
+    </div>
+
+<div class="toolbar">
+
+  <!-- RIGA 1: SEARCH + FILTRI AVANZATI -->
+  <div class="toolbar-row">
+    <div class="toolbar-search-bar">
+      <span class="search-icon"></span>
+      <input id="searchInput" placeholder="Suche…" />
+    </div>
+
+    <button id="advancedFiltersBtn" class="ghost icon-btn small">
+      <span class="filter-icon"></span>
+      Erweiterte Filter
+    </button>
+  </div>
+
+  <!-- 🔽 QUESTO DEVE STARE FUORI da .toolbar-row -->
+  <div id="advancedFiltersPanel" class="hidden">
+
+    <div class="filter-row">
+      <label>Daten:</label>
+      <input type="date" id="filterDateFrom">
+      <span class="sep">–</span>
+      <input type="date" id="filterDateTo">
+    </div>
+
+    <div class="filter-row">
+      <label>Betrag:</label>
+      <input type="number" id="filterAmountMin" placeholder="Min">
+      <span class="sep">–</span>
+      <input type="number" id="filterAmountMax" placeholder="Max">
+    </div>
+
+    <div class="filter-row">
+      <label>Kategorie:</label>
+      <select id="filterCategory">
+        <option value="">Alle</option>
+      </select>
+    </div>
+
+    <div class="filter-row">
+      <label>Beschreibung:</label>
+      <input type="text" id="filterTags" placeholder="tag1, tag2…">
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- RIGA 2 (select già esistenti) -->
+  <div class="toolbar-row selects">
+    <select id="filterType">
+      <option value="">Alle Typen</option>
+      <option value="EINNAHMEN">Einnahmen</option>
+      <option value="AUSGABEN">Ausgaben</option>
+    </select>
+
+    <select id="sortSelect">
+      <option value="">Sortieren</option>
+      <option value="date_asc">Datum ↑</option>
+      <option value="date_desc">Datum ↓</option>
+      <option value="amount_asc">Betrag ↑</option>
+      <option value="amount_desc">Betrag ↓</option>
+    </select>
+
+    <label class="toolbar-pages">
+      Anzahl:
+      <select id="pageSize">
+        <option>3</option>
+        <option>5</option>
+        <option selected>10</option>
+        <option>20</option>
+        <option>50</option>
+      </select>
+    </label>
+  </div>
+
+</div>
+  </header>
+
+  <main>
+    <section id="tableSection">
+      <div class="table-card">
+        <table id="txTable">
+          <thead>
+            <tr>
+              <th>Id</th><th>Datum</th><th>Typ</th><th>Kategorie</th><th>Beschreibung</th><th>Betrag</th><th>Aktionen</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="pagination" class="pagination-wrap"></div>
+      </div>
+    </section>
+
+    <section id="chartSection">
+      <div class="chart-wrap">
+<button id="showChartsBtn" class="button primary icon-show-charts">
+  Grafiken anzeigen/ausblenden
+</button>
+
+        <div id="chartControls" class="hidden">
+          <select id="chartType">
+            <option value="Ausgaben">Ausgaben (bar)</option>
+            <option value="Einnahmen">Einnahmen (bar)</option>
+            <option value="AusgabenEinnahmen">Ausgaben vs Einnahmen (bar)</option>
+            <option value="Kontostand">Kontostand (line)</option>
+            <option value="Kategorie">Nach Kategorie (pie)</option>
+          </select>
+<button id="loadChartBtn" class="graf primary button icon-chart-load"> 
+        Grafik laden
+</button>
+        </div>
+
+        <div id="chartTitleWrapper" class="hidden">
+          <h3 class="chart-title" id="chartTitle"></h3>
+        </div>
+
+        <canvas id="chartCanvas" class="hidden"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div id="transactionModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-content">
+      <button id="closeModal" class="close">✕</button>
+      <h2>Neue Transaktion</h2>
+      <form id="txForm">
+        <label>Datum: <input type="date" id="txDate" required></label>
+        <label>Typ:
+          <select id="txType">
+            <option value="EINNAHMEN">Einnahmen</option>
+            <option value="AUSGABEN">Ausgaben</option>
+          </select>
+        </label>
+        <label>Kategorie: <input id="txCategory" required placeholder="z.B. Lebensmittel"></label>
+        <label>Beschreibung: <input id="txDescription" placeholder="optional"></label>
+        <label>Betrag: <input type="number" step="0.01" id="txAmount" required></label>
+        <div class="modal-actions">
+          <button type="submit" class="primary button">Speichern</button>
+          <button type="button" id="cancelBtn" class="button">Abbrechen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alert -->
+  <div id="customAlert" class="modal custom-alert hidden">
+    <div class="alert-box">
+      <h2><p id="alertMessage"></p></h2>
+      <button id="alertOk" class="ok">OK</button>
+    </div>
+  </div>
+
+  <!-- Confirm -->
+  <div id="customConfirm" class="modal custom-alert hidden">
+    <div class="alert-box">
+    <h2><p id="confirmMessage"></p></h2>
+      <button id="confirmYes" class="ok">Ja</button>
+      <button id="confirmNo" class="no">Nein</button>
+    </div>
+  </div>
+<!-- Format aus wählen -->
+  <div id="formatChoiceModal" class="modal custom-alert hidden">
+  <div class="alert-box">
+    <h2>Scegli il formato</h2>
+    <button id="chooseExcelBtn" class="ok">Excel</button>
+    <button id="choosePdfBtn" class="ok">PDF</button>
+    <p><button id="closeFormatModalBtn" class="no schlissen">Schlißen</button></p>
+    
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
